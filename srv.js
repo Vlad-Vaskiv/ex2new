@@ -1,6 +1,6 @@
 var express = require('express');
 var favicon = require('serve-favicon');
-var path = require('path')
+var path = require('path');
 var bodyParser = require('body-parser');
 var morgan = require('morgan');
 var methodOverride = require('method-override');
@@ -87,8 +87,7 @@ app.put('/api/articles/:id', function (req, res) {
         article.description = req.body.description;
         article.author = req.body.author;
         article.images = req.body.images;
-        return article.save(function (err) 
-                            {
+        return article.save(function (err) {
             if (!err) {
                 log.info("article updated");
                 return res.send({ status: 'OK', article:article });
@@ -112,8 +111,7 @@ app.delete('/api/articles/:id', function (req, res) {
             res.statusCode = 404;
             return res.send({ error: 'Not found' });
         }
-        return article.remove(function (err) 
-                              {
+        return article.remove(function (err) {
             if (!err) {
                 log.info("article removed");
                 return res.send({ status: 'OK' });
