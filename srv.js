@@ -76,7 +76,7 @@ app.get('/api/articles/:id', function(req, res) {
     });
 });
 
-app.put('/api/articles/:id', function (req, res){
+app.put('/api/articles/:id', function (req, res) {
     return ArticleModel.findById(req.params.id, function (err, article) 
                                  {
         if (!article) {
@@ -106,7 +106,7 @@ app.put('/api/articles/:id', function (req, res){
     });
 });
 
-app.delete('/api/articles/:id', function (req, res){
+app.delete('/api/articles/:id', function (req, res) {
     return ArticleModel.findById(req.params.id, function (err, article) {
         if(!article) {
             res.statusCode = 404;
@@ -126,7 +126,7 @@ app.delete('/api/articles/:id', function (req, res){
     });
 });
 
-app.get('/ErrorExample', function(req, res, next){
+app.get('/ErrorExample', function(req, res, next) {
     next(new Error('Random error!'));
 });
 
@@ -138,14 +138,14 @@ app.get('/api', function (req, res) {
     res.send('API is running');
 });
 
-app.use(function(req, res, next){
+app.use(function(req, res, next) {
     res.status(404);
     log.debug('Not found URL: ' + req.url);
     res.send({ error: 'Not found' });
     return;
 });
  
-app.use(function(err, req, res, next){ 
+app.use(function(err, req, res, next) { 
     res.status(err.status || 500);
     log.error('123');
     log.error('Internal error(' + res.statusCode + '): ' + err.message);
@@ -153,6 +153,6 @@ app.use(function(err, req, res, next){
     return;
 });
 
-app.listen(config.get('port'), function(){
+app.listen(config.get('port'), function() {
     log.info('Express server listening on port ' + config.get('port'));
 }); 
