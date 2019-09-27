@@ -22,12 +22,9 @@ app.use(express.static(path.join(__dirname, "public")));
 
 app.get('/api/articles', function(req, res) {
 	return ArticleModel.find(function (err, articles) {
-		if (!err) 
-		{
+		if (!err) {
 			return res.send(articles);
-		} 
-		else 
-		{
+		} else {
 			res.statusCode = 500;
 			log.error('Internal error(' + res.statusCode + '): ' + err.message);
 			return res.send({ error: 'Server error' });
@@ -43,27 +40,21 @@ app.post('/api/articles', function(req, res) {
 	});
 	
 	article.save(function (err) {
-		if (!err) 
-		{
+		if (!err) {
 			log.info("article created");
 			return res.send({
-				status: 'OK',
-				article:article
+            status: 'OK',
+            article:article
 			});
-		} 
-		else 
-		{
+		} else {
 			console.log(err);
-			if (err.name == 'ValidationError') 
-			{
-				res.statusCode = 400;
-				res.send({ error: 'Validation error' });
-			} 
-			else 
-			{
-				res.statusCode = 500;
-				res.send({ error: 'Server error' }); 
-			}
+        if (err.name == 'ValidationError') {
+            res.statusCode = 400;
+            res.send({ error: 'Validation error' });
+        } else {
+            res.statusCode = 500;
+            res.send({ error: 'Server error' }); 
+        }
 			log.error('Internal error(' + res.statusCode + '): ' + err.message);
 		}
 	});
@@ -72,8 +63,7 @@ app.post('/api/articles', function(req, res) {
 app.get('/api/articles/:id', function(req, res) {
 	return ArticleModel.findById(req.params.id, function (err, article) 
 	{
-		if (!article) 
-		{
+		if (!article) {
 			res.statusCode = 404;
 			return res.send({ error: 'Not found' });
 		}
@@ -90,80 +80,70 @@ app.get('/api/articles/:id', function(req, res) {
 app.put('/api/articles/:id', function (req, res){
 	return ArticleModel.findById(req.params.id, function (err, article) 
 	{
-		if (!article) 
-		{
+		if (!article) {
 			res.statusCode = 404;
 			return res.send({ error: 'Not found' });
 		}
-		article.title = req.body.title;
-		article.description = req.body.description;
-		article.author = req.body.author;
-		article.images = req.body.images;
-		return article.save(function (err) 
+		    article.title = req.body.title;
+		    article.description = req.body.description;
+		    article.author = req.body.author;
+		    article.images = req.body.images;
+		    return article.save(function (err) 
 		{
-			if (!err) {
-				log.info("article updated");
-				return res.send({ status: 'OK', article:article });
-			} 
-			else 
-			{ 
-				if(err.name == 'ValidationError')
-				{
-					res.statusCode = 400;
-					res.send({ error: 'Validation error' });
-				} 
-				else 
-				{
-					res.statusCode = 500;
-					res.send({ error: 'Server error' });
-				}
-				log.error('Internal error(' + res.statusCode + '): ' + err.message);
-			}
+        if (!err) {
+            log.info("article updated");
+            return res.send({ status: 'OK', article:article });
+        } else { 
+        if (err.name == 'ValidationError'){
+            res.statusCode = 400;
+            res.send({ error: 'Validation error' });
+        } else {
+            res.statusCode = 500;
+            res.send({ error: 'Server error' });
+        }
+            log.error('Internal error(' + res.statusCode + '): ' + err.message);
+        }
 		});
 	});
 });
 
 app.delete('/api/articles/:id', function (req, res){
 	return ArticleModel.findById(req.params.id, function (err, article) {
-		if(!article) 
-		{
+		if(!article) {
 			res.statusCode = 404;
 			return res.send({ error: 'Not found' });
 		}
 		return article.remove(function (err) 
 		{
-			if (!err) 
-			{
-				log.info("article removed");
-				return res.send({ status: 'OK' });
-			} 
-			else 
-			{
-				res.statusCode = 500;
-				log.error('Internal error(' + res.statusCode + '): ' + err.message);
-				return res.send({ error: 'Server error' });
-			}
+        if (!err) {
+            log.info("article removed");
+            return res.send({ status: 'OK' });
+        } else {
+            res.statusCode = 500;
+            log.error('Internal error(' + res.statusCode + '): ' + err.message);
+            return res.send({ error: 'Server error' });
+        }
 		});
 	});
 });
 
 app.get('/ErrorExample', function(req, res, next){
-	next(new Error('Random error!'));
+    next(new Error('Random error!'));
 });
 
 app.get('/test', function (req, res) {
-  res.send('GET request to the homepage');
+    res.send('GET request to the homepage');
 });
 
 app.get('/api', function (req, res) {
-	res.send('API is running');
+    res.send('API is running');
 });
 
 app.use(function(req, res, next){
-	res.status(404);
-	log.debug('Not found URL: ' + req.url);
-	res.send({ error: 'Not found' });
-	return;
+    res.status(404);
+    log.debug('Not found URL: ' + req.url);
+    res.send({ error: 'Not found' });
+    return;
 });
  
 app.use(function(err, req, res, next){ 
