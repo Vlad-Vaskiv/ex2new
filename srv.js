@@ -77,8 +77,7 @@ app.get('/api/articles/:id', function(req, res) {
 });
 
 app.put('/api/articles/:id', function (req, res) {
-    return ArticleModel.findById(req.params.id, function (err, article) 
-                                 {
+    return ArticleModel.findById(req.params.id, function (err, article) {
         if (!article) {
             res.statusCode = 404;
             return res.send({ error: 'Not found' });
